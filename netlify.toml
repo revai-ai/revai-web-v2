@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[functions]
+  directory = "netlify/functions"
+
+# Redirects are handled by public/_redirects (copied into dist/ at build time):
+#   /sluzby/emailova-automatizace -> /sluzby/automatizace-procesu (301)
+#   /* -> /index.html (200, SPA fallback)
+# No redirect rules are defined here to avoid conflicting with that file.

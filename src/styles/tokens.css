@@ -1,0 +1,19 @@
+/* Invisible Flow design tokens
+   Scoped under .variant-c to avoid any collision with production styles. */
+
+.variant-c {
+  --ifl-canvas: #F6F4EF;
+  --ifl-s1: #EDEBE5;
+  --ifl-s2: #E3DFD7;
+  --ifl-s3: #D6D1C8;
+  --ifl-border: #CCC8BF;
+  --ifl-border-dim: #DAD6CE;
+  --ifl-ink: #1E1B16;
+  --ifl-ink-70: #56524C;
+  --ifl-ink-40: #9A958D;
+  --ifl-signal: #4F6F4A;
+  --ifl-signal-dark: #385337;
+  --ifl-signal-tint: #EAF0E6;
+  --ifl-signal-mid: #CBD8C7;
+  --ifl-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}

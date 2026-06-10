@@ -1,0 +1,5 @@
+# Phase 3: email automation folded into process automation
+/sluzby/emailova-automatizace   /sluzby/automatizace-procesu   301!
+
+# SPA fallback — must stay last
+/*   /index.html   200
