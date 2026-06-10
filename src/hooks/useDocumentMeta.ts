@@ -1,14 +1,17 @@
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { absoluteUrl, canonicalPathFor, hreflangAlternatesFor } from '../i18n/meta';
 
 interface DocumentMeta {
   title: string;
   description?: string;
   ogTitle?: string;
   ogDescription?: string;
+  /** The page's canonical Czech bare path; EN routes self-canonicalize via the route map. */
   canonical?: string;
 }
 
-const SITE_URL = 'https://automatizace-ai.cz';
+const HREFLANG_ATTR = 'data-i18n-hreflang';
 
 function setMetaContent(selector: string, content: string) {
   const el = document.querySelector(selector);
@@ -22,6 +25,8 @@ export function useDocumentMeta({
   ogDescription,
   canonical,
 }: DocumentMeta) {
+  const { pathname } = useLocation();
+
   useEffect(() => {
     document.title = title;
 
@@ -38,9 +43,16 @@ export function useDocumentMeta({
       setMetaContent('meta[name="twitter:description"]', resolvedOgDesc);
     }
 
-    // Update og:url to canonical
+    // Client-side hreflang (3D moves this into served/prerendered HTML).
+    // Cleared unconditionally so unmapped pages don't keep stale links.
+    document
+      .querySelectorAll(`link[${HREFLANG_ATTR}]`)
+      .forEach((el) => el.remove());
+
+    // Update og:url + canonical — locale-aware: never cross-locale (§4.2)
     if (canonical) {
-      const fullUrl = canonical.startsWith('http') ? canonical : `${SITE_URL}${canonical}`;
+      const selfCanonical = canonicalPathFor(canonical, pathname);
+      const fullUrl = absoluteUrl(selfCanonical);
       setMetaContent('meta[property="og:url"]', fullUrl);
 
       let canonicalEl = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
@@ -50,6 +62,18 @@ export function useDocumentMeta({
         document.head.appendChild(canonicalEl);
       }
       canonicalEl.href = fullUrl;
+
+      const alternates = hreflangAlternatesFor(canonical);
+      if (alternates) {
+        for (const { hrefLang, href } of alternates) {
+          const link = document.createElement('link');
+          link.rel = 'alternate';
+          link.hreflang = hrefLang;
+          link.href = href;
+          link.setAttribute(HREFLANG_ATTR, '');
+          document.head.appendChild(link);
+        }
+      }
     }
-  }, [title, description, ogTitle, ogDescription, canonical]);
+  }, [title, description, ogTitle, ogDescription, canonical, pathname]);
 }

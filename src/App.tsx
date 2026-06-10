@@ -1,8 +1,12 @@
 import { lazy, Suspense } from 'react';
+import type { ReactElement } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
+import LocaleSync from './i18n/LocaleSync';
+import { ROUTE_MAP, normalizePath, csRedirectTarget } from './i18n/routes';
+import type { RouteKey } from './i18n/routes';
 import Home from './pages/Home';
 
 const References = lazy(() => import('./pages/References'));
@@ -22,6 +26,29 @@ const GDPR = lazy(() => import('./pages/GDPR'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 const BROCHURE_PATHS = ['/brozura-hotely', '/brozura-zdravotnictvi', '/brozura-autoservisy'];
+
+/* Phase 3C: /en tree renders the same components — copy localizes via the
+   existing language system, with the locale driven by the URL (LocaleSync). */
+const EN_ROUTE_ELEMENTS: Record<RouteKey, ReactElement> = {
+  home: <Home />,
+  processAutomation: <InternalAgents />,
+  voiceAgents: <VoiceAgents />,
+  aiAppDevelopment: <AIAppDevelopment />,
+  modernWeb: <ModernWebDevelopment />,
+  pricing: <PricingPage />,
+  contact: <Contact />,
+  projects: <Projects />,
+  references: <References />,
+  blog: <Blog />,
+  gdpr: <GDPR />,
+};
+
+/* Phase 3C: /cs paths are never canonical (Option A) — in-app mirror of the
+   _redirects 301s; resolves legacy slugs directly so no hop chains form. */
+function CsRedirect() {
+  const location = useLocation();
+  return <Navigate to={csRedirectTarget(location.pathname)} replace />;
+}
 
 function AppLayout() {
   const location = useLocation();
@@ -57,6 +84,17 @@ function AppLayout() {
           <Route path="/brozura-zdravotnictvi" element={<BrochureZdravotnictvi />} />
           <Route path="/brozura-autoservisy" element={<BrochureAutoservisy />} />
           <Route path="/gdpr" element={<GDPR />} />
+          {/* Phase 3C: additive /en tree with English slugs (B2; plan §4.1 Option A) */}
+          {ROUTE_MAP.map((entry) => (
+            <Route
+              key={`en-${entry.key}`}
+              path={normalizePath(entry.en)}
+              element={EN_ROUTE_ELEMENTS[entry.key]}
+            />
+          ))}
+          {/* Phase 3C: /cs mirrors redirect to canonical bare Czech paths (Option A) */}
+          <Route path="/cs" element={<CsRedirect />} />
+          <Route path="/cs/*" element={<CsRedirect />} />
           {/* Phase 3A: catch-all for unmatched client-side routes (fixes R12 soft 404) */}
           <Route path="*" element={<NotFound />} />
         </Routes>
@@ -70,6 +108,7 @@ function App() {
   return (
     <Router>
       <ScrollToTop />
+      <LocaleSync />
       <AppLayout />
     </Router>
   );

@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { CALENDAR_URL } from '../config/site';
+import type { Locale } from '../i18n/locales';
+import { LANG_STORAGE_KEY } from '../i18n/locales';
+import { localizedHref, switcherTarget } from '../i18n/routes';
 
 const serviceLinks = {
   cs: [
@@ -23,15 +26,33 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isMobileServicesOpen, setIsMobileServicesOpen] = useState(false);
   const { language, setLanguage, t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const currentServiceLinks = serviceLinks[language];
+
+  // Phase 3C: the switcher routes through the CZ↔EN slug table — EN goes to
+  // the mapped /en path, CZ to the bare path; unmapped pages fall back to the
+  // locale home. URL change drives the language via LocaleSync.
+  const switchLocale = (target: Locale) => {
+    try {
+      window.localStorage.setItem(LANG_STORAGE_KEY, target);
+    } catch {
+      // localStorage unavailable — preference just isn't persisted
+    }
+    const destination = switcherTarget(location.pathname, target);
+    if (destination !== location.pathname) {
+      navigate(destination);
+    }
+    setLanguage(target);
+  };
 
   return (
     <nav className="variant-c fixed top-0 left-0 right-0 z-50 bg-ifl-canvas/90 backdrop-blur-md border-b border-ifl-border">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <Link to="/" className="flex items-center gap-2.5" aria-label="REVAI">
+            <Link to={localizedHref('/', language)} className="flex items-center gap-2.5" aria-label="REVAI">
               <img
                 src="/logo-revai-forest-lift.webp"
                 alt=""
@@ -60,7 +81,7 @@ export default function Navbar() {
                 {currentServiceLinks.map((link) => (
                   <Link
                     key={link.name}
-                    to={link.href}
+                    to={localizedHref(link.href, language)}
                     role="menuitem"
                     className="block px-4 py-3 text-sm text-ifl-ink-70 hover:bg-ifl-s1 hover:text-ifl-signal transition-colors"
                   >
@@ -71,28 +92,28 @@ export default function Navbar() {
             </div>
 
             <Link
-              to="/projekty"
+              to={localizedHref('/projekty', language)}
               className="text-sm font-medium text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200"
             >
               {t('PROJEKTY', 'PROJECTS')}
             </Link>
 
             <Link
-              to="/cenik"
+              to={localizedHref('/cenik', language)}
               className="text-sm font-medium text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200"
             >
               {t('CENÍK', 'PRICING')}
             </Link>
 
             <Link
-              to="/blog"
+              to={localizedHref('/blog', language)}
               className="text-sm font-medium text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200"
             >
               BLOG
             </Link>
 
             <Link
-              to="/kontakt"
+              to={localizedHref('/kontakt', language)}
               className="text-sm font-medium text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200"
             >
               {t('KONTAKT', 'CONTACT')}
@@ -100,7 +121,7 @@ export default function Navbar() {
 
             <div className="flex items-center gap-1">
               <button
-                onClick={() => setLanguage('cs')}
+                onClick={() => switchLocale('cs')}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                   language === 'cs'
                     ? 'bg-ifl-signal text-white'
@@ -110,7 +131,7 @@ export default function Navbar() {
                 CZ
               </button>
               <button
-                onClick={() => setLanguage('en')}
+                onClick={() => switchLocale('en')}
                 className={`px-3 py-1 rounded-full text-sm font-medium transition-colors ${
                   language === 'en'
                     ? 'bg-ifl-signal text-white'
@@ -161,7 +182,7 @@ export default function Navbar() {
                   {currentServiceLinks.map((link) => (
                     <Link
                       key={link.name}
-                      to={link.href}
+                      to={localizedHref(link.href, language)}
                       className="block text-sm text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200 py-2"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -173,7 +194,7 @@ export default function Navbar() {
             </div>
 
             <Link
-              to="/projekty"
+              to={localizedHref('/projekty', language)}
               className="block text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200 font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -181,7 +202,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              to="/cenik"
+              to={localizedHref('/cenik', language)}
               className="block text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200 font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -189,7 +210,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              to="/blog"
+              to={localizedHref('/blog', language)}
               className="block text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200 font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -197,7 +218,7 @@ export default function Navbar() {
             </Link>
 
             <Link
-              to="/kontakt"
+              to={localizedHref('/kontakt', language)}
               className="block text-ifl-ink-70 hover:text-ifl-signal transition-colors duration-200 font-medium py-2"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -206,7 +227,7 @@ export default function Navbar() {
 
             <div className="flex items-center gap-2 py-2">
               <button
-                onClick={() => setLanguage('cs')}
+                onClick={() => { switchLocale('cs'); setIsMenuOpen(false); }}
                 className={`flex-1 px-3 py-2 rounded-full font-medium transition-colors ${
                   language === 'cs'
                     ? 'bg-ifl-signal text-white'
@@ -216,7 +237,7 @@ export default function Navbar() {
                 CZ
               </button>
               <button
-                onClick={() => setLanguage('en')}
+                onClick={() => { switchLocale('en'); setIsMenuOpen(false); }}
                 className={`flex-1 px-3 py-2 rounded-full font-medium transition-colors ${
                   language === 'en'
                     ? 'bg-ifl-signal text-white'

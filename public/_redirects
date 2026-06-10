@@ -4,5 +4,12 @@
 # Phase 3A: legacy internal-agents URL folded into process automation (B6 §6.4)
 /sluzby/interni-agenti   /sluzby/automatizace-procesu   301!
 
+# Phase 3C: /cs paths 301 to canonical bare Czech paths (Option A — /cs is never canonical).
+# Legacy slugs listed first so /cs hits collapse to the final target in a single hop.
+/cs/sluzby/emailova-automatizace   /sluzby/automatizace-procesu   301!
+/cs/sluzby/interni-agenti   /sluzby/automatizace-procesu   301!
+/cs   /   301!
+/cs/*   /:splat   301!
+
 # SPA fallback — must stay last
 /*   /index.html   200
