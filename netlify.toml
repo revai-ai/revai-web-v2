@@ -7,5 +7,8 @@
 
 # Redirects are handled by public/_redirects (copied into dist/ at build time):
 #   /sluzby/emailova-automatizace -> /sluzby/automatizace-procesu (301)
-#   /* -> /index.html (200, SPA fallback)
+#   /sluzby/interni-agenti -> /sluzby/automatizace-procesu (301)
+#   /cs + /cs/* -> bare Czech paths (301, Option A)
+#   /projekty/* + brochures -> /spa-shell.html (200, SPA-only routes)
+#   /* -> /404.html (404 — prerendered route files are served before this)
 # No redirect rules are defined here to avoid conflicting with that file.

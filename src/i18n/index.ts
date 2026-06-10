@@ -13,3 +13,5 @@ export {
 } from './routes';
 export type { HreflangAlternate } from './meta';
 export { SITE_URL, absoluteUrl, hreflangAlternatesFor, canonicalPathFor } from './meta';
+export type { LocalizedPageMeta, PageMetaEntry } from './pageMeta';
+export { PAGE_META, NOT_FOUND_META } from './pageMeta';
