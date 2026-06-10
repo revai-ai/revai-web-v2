@@ -2,24 +2,28 @@
 
 > Owner answers recorded below. Full context for each decision: `docs/planning/phase-1-decision-records.md`.
 >
-> ⛔ **Gate status:** B10 is answered; **B1 and B6 are only PARTIALLY answered and remain open.** No outward-facing or SEO-affecting work may begin until B1 is closed (new repo + new Netlify site actually created and confirmed) and B6 is closed (final GSC export recorded before any homepage meta/H1/SEO change).
+> ⛔ **Gate status:** B1 and B10 are answered. **B6 remains only PARTIALLY answered** — the final GSC export is still missing, so **homepage meta/H1/SEO changes remain blocked until B6 is fully closed.** Custom domain cutover stays blocked until explicit staging sign-off.
 
 - **Filled in by:** Owner (via directive)
 - **Date:** 2026-06-10
 
 ---
 
-## 1. B1 — Production source of truth ⛔ PARTIALLY ANSWERED
+## 1. B1 — Production source of truth ✅ ANSWERED
 
-- Production GitHub repository URL: new GitHub repository will be created from the local folder
+- Production GitHub repository URL: **https://github.com/revai-ai/revai-web-v2.git** *(created)*
 - Default branch: main
-- Netlify production site name/ID: new Netlify site will be created for the redesign; current production site remains untouched
-- Production domain: temporary Netlify subdomain first; custom REVAI/Automatizace domain cutover later after staging sign-off
-- Reconciliation method: new GitHub repository becomes the source of truth for the redesign; existing production remains legacy fallback until explicit cutover
-- Netlify env/secrets location confirmed (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` on that site): **pending** — must be confirmed after the new Netlify site is created
+- Netlify site (redesign): **https://revai-web-v2.netlify.app** *(created; new site for the redesign)*
+- Existing production site: remains **untouched** as legacy fallback
+- Production domain: temporary Netlify subdomain (`revai-web-v2.netlify.app`) first; custom REVAI/Automatizace domain cutover **not approved yet** — later, after staging sign-off
+- Reconciliation method: the new GitHub repository is the source of truth for the redesign; existing production remains legacy fallback until explicit cutover
+- Netlify env/secrets on `revai-web-v2`: **confirmed — all three configured** *(status only; values are never recorded in documentation)*
+  - `RESEND_API_KEY`: configured
+  - `CONTACT_TO_EMAIL`: configured
+  - `CONTACT_FROM_EMAIL`: configured
 - Notes: No current production deploy or domain migration is approved in Phase 1.
 
-> **Status:** direction decided (this tree becomes the redesign source of truth via a new repo; production stays untouched as legacy fallback), but **B1 does not fully close until the new GitHub repo and new Netlify site actually exist and env/secrets are confirmed.** Domain cutover remains a separate, later approval after staging sign-off.
+> **Status: B1 CLOSED.** The new GitHub repo and Netlify site exist, and all three required env vars are confirmed as configured on `revai-web-v2`. The redesign's source of truth is settled. **Custom domain cutover remains a separate, later approval after staging sign-off** — closing B1 does not approve it.
 
 ## 2. B5 — Hero CTA decision ✅ ANSWERED
 
@@ -89,7 +93,7 @@
 
 ## 8. Final Phase 1 gate
 
-- [~] **B1 partially answered** — direction decided (new repo from this folder, new Netlify site, production untouched); pending actual creation of the new GitHub repo and new Netlify site + env/secrets confirmation. **Not fully closed.**
+- [x] **B1 answered** — repo (`github.com/revai-ai/revai-web-v2`) and Netlify site (`revai-web-v2.netlify.app`) created; production untouched as legacy fallback; all three env vars (`RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`) confirmed configured. Domain cutover still requires separate staging sign-off.
 - [x] **B5 answered** — demo request primary, consultation secondary, demo in navbar.
 - [~] **B6 partially answered** — protective default approved (queries + pages listed above, meta/H1 frozen); pending final GSC export before any homepage meta/H1/SEO change. **Not fully closed.**
 - [x] **B10 answered** — brand facts supplied; Resend domain verification pending after new Netlify/Resend setup.
@@ -98,6 +102,6 @@
 - [x] **Dependency/security decision recorded** — no auto-fix; runtime router advisories prioritized in a later approved pass.
 - [x] **No code changed** — documentation only.
 
-> ⚠️ **Warning — gates not fully closed:** **B1** (new repo/Netlify site not yet created, env/secrets unconfirmed) and **B6** (final GSC export missing). Internal implementation may proceed under the protective defaults; **no outward-facing change, no deploy, no domain cutover, and no homepage meta/H1/SEO change may happen until B1 and B6 are fully closed.**
+> ⚠️ **Warning — one gate not fully closed:** **B6** (final GSC export missing). Internal implementation may proceed under the protective defaults, and deploy previews/testing on the temporary `revai-web-v2.netlify.app` subdomain may proceed since production is untouched; **custom domain cutover remains not approved (separate staging sign-off required), and no homepage meta/H1/SEO change may happen until B6 is fully closed.**
 
 **Owner signature / confirmation:** Owner directive, 2026-06-10  **Date:** 2026-06-10

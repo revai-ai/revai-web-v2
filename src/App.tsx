@@ -19,6 +19,7 @@ const BrochureAutoservisy = lazy(() => import('./pages/brochures/BrochureAutoser
 const Projects = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const GDPR = lazy(() => import('./pages/GDPR'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 const BROCHURE_PATHS = ['/brozura-hotely', '/brozura-zdravotnictvi', '/brozura-autoservisy'];
 
@@ -44,6 +45,11 @@ function AppLayout() {
             path="/sluzby/emailova-automatizace"
             element={<Navigate to="/sluzby/automatizace-procesu" replace />}
           />
+          {/* Phase 3A: legacy internal-agents URL folded into process automation (B6 §6.4) */}
+          <Route
+            path="/sluzby/interni-agenti"
+            element={<Navigate to="/sluzby/automatizace-procesu" replace />}
+          />
           <Route path="/sluzby/ai-app-development" element={<AIAppDevelopment />} />
           <Route path="/projekty" element={<Projects />} />
           <Route path="/projekty/:id" element={<ProjectDetail />} />
@@ -51,6 +57,8 @@ function AppLayout() {
           <Route path="/brozura-zdravotnictvi" element={<BrochureZdravotnictvi />} />
           <Route path="/brozura-autoservisy" element={<BrochureAutoservisy />} />
           <Route path="/gdpr" element={<GDPR />} />
+          {/* Phase 3A: catch-all for unmatched client-side routes (fixes R12 soft 404) */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       {!isBrochure && <Footer />}

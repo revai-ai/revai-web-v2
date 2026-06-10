@@ -1,5 +1,8 @@
 # Phase 3: email automation folded into process automation
 /sluzby/emailova-automatizace   /sluzby/automatizace-procesu   301!
 
+# Phase 3A: legacy internal-agents URL folded into process automation (B6 §6.4)
+/sluzby/interni-agenti   /sluzby/automatizace-procesu   301!
+
 # SPA fallback — must stay last
 /*   /index.html   200
