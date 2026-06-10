@@ -10,7 +10,7 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 export default function PricingPage() {
   const { t } = useLanguage();
   useDocumentMeta({
-    title: t('Ceník AI služeb | AMAI', 'AI Services Pricing | AMAI'),
+    title: t('Ceník AI služeb | REVAI', 'AI Services Pricing | REVAI'),
     description: t(
       'Transparentní ceník AI automatizace, hlasových asistentů, tvorby webů a vývoje AI aplikací. Kalkulátory pro okamžitý odhad ceny.',
       'Transparent pricing for AI automation, voice assistants, website development and AI app development. Calculators for instant price estimates.'

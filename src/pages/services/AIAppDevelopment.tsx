@@ -99,7 +99,7 @@ const PROTOTYPE_TO_PRODUCTION = [
 export default function AIAppDevelopment() {
   const { t, language } = useLanguage();
   useDocumentMeta({
-    title: t('Vývoj AI aplikací na míru | AMAI', 'Custom AI App Development | AMAI'),
+    title: t('Vývoj AI aplikací na míru | REVAI', 'Custom AI App Development | REVAI'),
     description: t(
       'Vývoj vlastních AI aplikací, dashboardů a inteligentních systémů. Full-stack řešení s LLM, RAG a agentic workflow pro firmy.',
       'Development of custom AI applications, dashboards and intelligent systems. Full-stack solutions with LLM, RAG and agentic workflows for businesses.'

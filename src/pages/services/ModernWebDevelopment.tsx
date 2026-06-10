@@ -105,7 +105,7 @@ const TIERS = [
 export default function ModernWebDevelopment() {
   const { t, language } = useLanguage();
   useDocumentMeta({
-    title: t('Tvorba moderních webů s AI | AMAI', 'Modern Website Development with AI | AMAI'),
+    title: t('Tvorba moderních webů s AI | REVAI', 'Modern Website Development with AI | REVAI'),
     description: t(
       'Navrhujeme a vyvíjíme moderní weby s integrací AI. React, Vite, Tailwind — rychlé, přístupné a SEO-optimalizované weby na míru.',
       'We design and develop modern websites with AI integration. React, Vite, Tailwind — fast, accessible and SEO-optimized custom websites.'

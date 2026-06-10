@@ -892,7 +892,7 @@ en: [
 export default function Blog() {
   const { t, language } = useLanguage();
   useDocumentMeta({
-    title: t('Blog o AI automatizaci | AMAI', 'AI Automation Blog | AMAI'),
+    title: t('Blog o AI automatizaci | REVAI', 'AI Automation Blog | REVAI'),
     description: t(
       'Sledujte nejnovější trendy v AI, automatizaci procesů a hlasových asistentech. Praktické poznatky od českých odborníků.',
       'Follow the latest trends in AI, process automation and voice assistants. Practical insights from Czech experts.'

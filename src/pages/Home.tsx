@@ -13,8 +13,8 @@ export default function Home() {
   const { t } = useLanguage();
   useDocumentMeta({
     title: t(
-      'Automatizace pomocí AI – Řešení na míru | AMAI',
-      'AI Automation – Custom Solutions | AMAI'
+      'Automatizace pomocí AI – Řešení na míru | REVAI',
+      'AI Automation – Custom Solutions | REVAI'
     ),
     description: t(
       'Česká agentura na AI automatizaci. Hlasoví asistenti, automatizace procesů, moderní weby a vývoj AI aplikací pro firmy.',

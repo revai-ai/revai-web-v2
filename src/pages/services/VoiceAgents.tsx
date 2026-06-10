@@ -116,10 +116,10 @@ const USE_CASES = [
 export default function VoiceAgents() {
   const { t, language } = useLanguage();
   useDocumentMeta({
-    title: t('Hlasoví AI asistenti pro firmy | AMAI', 'AI Voice Assistants for Business | AMAI'),
+    title: t('Hlasoví AI asistenti pro firmy | REVAI', 'AI Voice Assistants for Business | REVAI'),
     description: t(
-      'AI hlasoví asistenti od AMAI automatizují příchozí hovory, objednávky a zákaznický servis 24/7. Integrace s CRM a interními systémy.',
-      'AI voice assistants from AMAI automate incoming calls, bookings and customer service 24/7. Integration with CRM and internal systems.'
+      'AI hlasoví asistenti od REVAI automatizují příchozí hovory, objednávky a zákaznický servis 24/7. Integrace s CRM a interními systémy.',
+      'AI voice assistants from REVAI automate incoming calls, bookings and customer service 24/7. Integration with CRM and internal systems.'
     ),
     canonical: '/sluzby/hlasovi-agenti',
   });

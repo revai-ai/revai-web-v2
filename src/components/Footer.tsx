@@ -1,4 +1,4 @@
-import { Mail, Phone, Linkedin, Facebook, Instagram } from 'lucide-react';
+import { Mail, Phone, Linkedin, Instagram } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '../contexts/LanguageContext';
 
@@ -63,7 +63,7 @@ export default function Footer() {
   const currentSections = footerSections[language];
 
   return (
-    <footer id="blog" className="variant-c bg-ifl-s3 text-ifl-ink-70 border-t border-ifl-border">
+    <footer className="variant-c bg-ifl-s3 text-ifl-ink-70 border-t border-ifl-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
             <div className="lg:col-span-2">
@@ -88,7 +88,7 @@ export default function Footer() {
               </p>
 
               <div className="space-y-3 mb-6">
-                <a href="mailto:info@amai.cz" className="flex items-center space-x-3 text-ifl-ink-70 hover:text-ifl-signal transition-colors">
+                <a href="mailto:info@automatizace-ai.cz" className="flex items-center space-x-3 text-ifl-ink-70 hover:text-ifl-signal transition-colors">
                   <Mail size={18} />
                   <span>info@automatizace-ai.cz</span>
                 </a>
@@ -98,31 +98,21 @@ export default function Footer() {
                 </a>
               </div>
 
-              {/* TODO: replace href="#" with real social URLs once provided by client */}
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://www.linkedin.com/company/110111764/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="LinkedIn"
-                  aria-disabled="true"
-                  onClick={(e) => e.preventDefault()}
                   className="w-10 h-10 rounded-full bg-ifl-canvas border border-ifl-border flex items-center justify-center text-ifl-ink-70 hover:bg-ifl-signal hover:text-white hover:border-ifl-signal transition-colors duration-200"
                 >
                   <Linkedin size={18} />
                 </a>
                 <a
-                  href="#"
-                  aria-label="Facebook"
-                  aria-disabled="true"
-                  onClick={(e) => e.preventDefault()}
-                  className="w-10 h-10 rounded-full bg-ifl-canvas border border-ifl-border flex items-center justify-center text-ifl-ink-70 hover:bg-ifl-signal hover:text-white hover:border-ifl-signal transition-colors duration-200"
-                >
-                  <Facebook size={18} />
-                </a>
-                <a
-                  href="#"
+                  href="https://www.instagram.com/revai_ai/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Instagram"
-                  aria-disabled="true"
-                  onClick={(e) => e.preventDefault()}
                   className="w-10 h-10 rounded-full bg-ifl-canvas border border-ifl-border flex items-center justify-center text-ifl-ink-70 hover:bg-ifl-signal hover:text-white hover:border-ifl-signal transition-colors duration-200"
                 >
                   <Instagram size={18} />
@@ -152,7 +142,7 @@ export default function Footer() {
         <div className="border-t border-ifl-border mt-12 pt-8">
           <div className="text-center">
             <p className="text-ifl-ink-40 text-xs">
-              {t('IČO: 05013500 | Praha, Česká republika', 'ID: 05013500 | Prague, Czech Republic')}
+              {t('IČO: 05013500 | nám. Svobody 210/18, 669 02 Znojmo 2, Česko', 'ID: 05013500 | nám. Svobody 210/18, 669 02 Znojmo 2, Czech Republic')}
             </p>
           </div>
         </div>

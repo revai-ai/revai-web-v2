@@ -9,8 +9,8 @@ export default function GDPR() {
   const { language } = useLanguage();
   useDocumentMeta({
     title: language === 'cs'
-      ? 'GDPR a ochrana osobních údajů | AMAI'
-      : 'GDPR & Data Protection | AMAI',
+      ? 'GDPR a ochrana osobních údajů | REVAI'
+      : 'GDPR & Data Protection | REVAI',
     description: language === 'cs'
       ? 'Transparentní informace o zpracování osobních údajů v souladu s GDPR. Zabezpečení, práva subjektů a kontaktní informace.'
       : 'Transparent information on personal data processing in compliance with GDPR. Security, data subject rights and contact details.',

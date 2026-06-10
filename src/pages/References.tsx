@@ -6,7 +6,7 @@ import { useDocumentMeta } from '../hooks/useDocumentMeta';
 export default function References() {
   const { t } = useLanguage();
   useDocumentMeta({
-    title: t('Reference a výsledky | AMAI – AI Automatizace', 'References & Results | AMAI – AI Automation'),
+    title: t('Reference a výsledky | REVAI – AI Automatizace', 'References & Results | REVAI – AI Automation'),
     description: t(
       'Reálné výsledky a case studies našich klientů. Zjistěte, jak AI automatizace pomáhá firmám ušetřit čas a snížit náklady.',
       'Real results and case studies from our clients. See how AI automation helps businesses save time and reduce costs.'
@@ -21,8 +21,8 @@ export default function References() {
       logo: 'EK',
       logoSrc: '/age-centrum-logo.png',
       testimonial: t(
-        'Na recepci jsme zvažovali, jestli přijmout novou posilu, nebo zkusit AI asistenta. Dnes nám AI Voice Agent od AMAI odbaví přes 850+ hovorů měsíčně — objednávky léků, dotazy pacientů i nové registrace. Sestřička má více času na péči o pacienty a provoz recepce je plynulejší.',
-        'At the reception, we were considering whether to hire a new person or try an AI assistant. Today, the AI Voice Agent from AMAI handles over 850+ calls per month — medication orders, patient inquiries, and new registrations. The nurse has more time for patient care and reception operations run more smoothly.'
+        'Na recepci jsme zvažovali, jestli přijmout novou posilu, nebo zkusit AI asistenta. Dnes nám AI Voice Agent od REVAI odbaví přes 850+ hovorů měsíčně — objednávky léků, dotazy pacientů i nové registrace. Sestřička má více času na péči o pacienty a provoz recepce je plynulejší.',
+        'At the reception, we were considering whether to hire a new person or try an AI assistant. Today, the AI Voice Agent from REVAI handles over 850+ calls per month — medication orders, patient inquiries, and new registrations. The nurse has more time for patient care and reception operations run more smoothly.'
       ),
       person: 'Mgr. Jakub MALOTA, MBA',
       position: t('Ředitel, Jednatel', 'Director, Managing Director'),
@@ -40,8 +40,8 @@ export default function References() {
       logo: 'TS',
       logoSrc: '/naskok-logo.webp',
       testimonial: t(
-        'Chatbot od AMAI nám pomáhá zrychlit komunikaci se zákazníky – odpovídá na časté dotazy ohledně konkrétních služeb a informací. Zákazníci dostanou odpověď během pár sekund. ',
-        'The chatbot from AMAI helps us speed up communication with customers – it answers frequent questions about specific services and information. Customers get a response within seconds.'
+        'Chatbot od REVAI nám pomáhá zrychlit komunikaci se zákazníky – odpovídá na časté dotazy ohledně konkrétních služeb a informací. Zákazníci dostanou odpověď během pár sekund. ',
+        'The chatbot from REVAI helps us speed up communication with customers – it answers frequent questions about specific services and information. Customers get a response within seconds.'
       ),
       person: 'Ing. Štěpán Wagner Ph.D.',
       position: t('Jednatel', 'Managing Director'),
@@ -74,8 +74,8 @@ export default function References() {
       logo: 'MM',
       logoSrc: '/berounlogo.png',
       testimonial: t(
-        'Chtěli jsme, aby se náš tým mohl více věnovat hostům a méně rutinním hovorům. AI hlasový asistent od AMAI dnes zajišťuje rezervace hotelu i golfu a odpovídá na časté dotazy. Recepce funguje hladce a hosté se dovolají rychleji.',
-        'We wanted our team to focus more on our guests and less on routine phone calls. Today, the AI voice assistant from AMAI handles hotel and golf reservations and answers frequently asked questions. Our reception runs smoothly, and guests get through faster.'
+        'Chtěli jsme, aby se náš tým mohl více věnovat hostům a méně rutinním hovorům. AI hlasový asistent od REVAI dnes zajišťuje rezervace hotelu i golfu a odpovídá na časté dotazy. Recepce funguje hladce a hosté se dovolají rychleji.',
+        'We wanted our team to focus more on our guests and less on routine phone calls. Today, the AI voice assistant from REVAI handles hotel and golf reservations and answers frequently asked questions. Our reception runs smoothly, and guests get through faster.'
       ),
       person: 'Vojtěch Matějček',
       position: t('Prokurista', 'Authorized Representative'),

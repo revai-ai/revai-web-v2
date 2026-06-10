@@ -10,10 +10,10 @@ export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { t } = useLanguage();
   useDocumentMeta({
-    title: t('Kontakt | AMAI – AI Automatizace', 'Contact | AMAI – AI Automation'),
+    title: t('Kontakt | REVAI – AI Automatizace', 'Contact | REVAI – AI Automation'),
     description: t(
-      'Kontaktujte tým AMAI. Odpovíme do 24 hodin. Nabízíme nezávaznou konzultaci AI automatizace pro vaši firmu.',
-      'Contact the AMAI team. We respond within 24 hours. We offer a free consultation on AI automation for your business.'
+      'Kontaktujte tým REVAI. Odpovíme do 24 hodin. Nabízíme nezávaznou konzultaci AI automatizace pro vaši firmu.',
+      'Contact the REVAI team. We respond within 24 hours. We offer a free consultation on AI automation for your business.'
     ),
     canonical: '/kontakt',
   });
@@ -302,7 +302,7 @@ export default function Contact() {
                     <h3 className="font-semibold text-ifl-ink mb-1">{t('ADRESA', 'ADDRESS')}</h3>
                     <p className="text-ifl-ink-70">
                       nám. Svobody 210/18<br />
-                      669 02 Znojmo 1<br />
+                      669 02 Znojmo 2<br />
                       {t('Česká republika', 'Czech Republic')}
                     </p>
                   </div>

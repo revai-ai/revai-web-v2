@@ -11,7 +11,7 @@ const INITIAL_COUNT = 6;
 export default function Projects() {
   const { language, t } = useLanguage();
   useDocumentMeta({
-    title: t('Realizované projekty | AMAI – AI Automatizace', 'Completed Projects | AMAI – AI Automation'),
+    title: t('Realizované projekty | REVAI – AI Automatizace', 'Completed Projects | REVAI – AI Automation'),
     description: t(
       'Prohlédněte si naše realizované projekty v oblasti AI automatizace, hlasových asistentů a vývoje webových aplikací.',
       'Browse our completed projects in AI automation, voice assistants and web application development.'

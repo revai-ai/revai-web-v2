@@ -114,7 +114,7 @@ const OUTCOMES = [
 export default function InternalAgents() {
   const { t, language } = useLanguage();
   useDocumentMeta({
-    title: t('Automatizace procesů pomocí AI | AMAI', 'AI Process Automation | AMAI'),
+    title: t('Automatizace procesů pomocí AI | REVAI', 'AI Process Automation | REVAI'),
     description: t(
       'Automatizujte opakující se procesy, e-mailovou komunikaci a workflow s AI. Integrace Make, n8n, Zapier a vlastních systémů.',
       'Automate repetitive processes, email communication and workflows with AI. Integration with Make, n8n, Zapier and custom systems.'

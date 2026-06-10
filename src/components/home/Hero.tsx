@@ -47,7 +47,7 @@ export default function HeroC() {
       <div className="max-w-7xl mx-auto w-full pt-28 pb-16 lg:pt-32 lg:pb-20 relative z-[1]">
 
         <p className="motion-safe:animate-ifl-fade-in text-[10px] tracking-[0.28em] uppercase text-ifl-signal font-medium font-mono mb-10">
-          {t('AI Automatizace · AMAI', 'AI Automation · AMAI')}
+          {t('AI Automatizace · REVAI', 'AI Automation · REVAI')}
         </p>
 
         <h1 className="motion-safe:animate-ifl-fade-in-1 text-[clamp(2.8rem,6.5vw,5rem)] font-bold text-ifl-ink leading-[0.94] tracking-[-0.02em] mb-8 max-w-3xl">
