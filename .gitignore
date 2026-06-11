@@ -24,3 +24,8 @@ dist-ssr
 .agents/
 skills-lock.json
 .env.local
+
+# Phase 4A — Higgsfield evaluation assets (raw generated media, never commit).
+# Accepted frames are compressed to public/story-lab/canvas-higgsfield/*.webp.
+# Rejected frames and the source PNGs stay here, untracked.
+higgsfield-eval-phase4a/

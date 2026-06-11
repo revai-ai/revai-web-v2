@@ -30,6 +30,12 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 // Remove when Phase 4B extracts the winner to main.
 const StoryLabControl = lazy(() => import('./pages/story-lab/StoryLabControl'));
 
+// Phase 4A lab — exp/story-lab-canvas-higgsfield branch only.
+// Remove when Phase 4B extracts the winner to main.
+const StoryLabCanvasHiggsfield = lazy(
+  () => import('./pages/story-lab/StoryLabCanvasHiggsfield')
+);
+
 const BROCHURE_PATHS = ['/brozura-hotely', '/brozura-zdravotnictvi', '/brozura-autoservisy'];
 
 /* Phase 3C: /en tree renders the same components — copy localizes via the
@@ -105,6 +111,8 @@ function AppLayout() {
           <Route path="/cs/*" element={<CsRedirect />} />
           {/* Phase 4A lab — exp/story-lab-control-crossfade branch only. Remove on Phase 4B merge. */}
           <Route path="/__story-lab/control" element={<StoryLabControl />} />
+          {/* Phase 4A lab — exp/story-lab-canvas-higgsfield branch only. Remove on Phase 4B merge. */}
+          <Route path="/__story-lab/canvas-higgsfield" element={<StoryLabCanvasHiggsfield />} />
           {/* Phase 3A: catch-all for unmatched client-side routes (fixes R12 soft 404) */}
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -17,6 +17,14 @@
 #   * Prerendered route files, _redirects ordering, the hard 404 and the SPA
 #     shell rewrites are untouched — headers are an additive serve-time layer.
 
+# Phase 4A lab routes — explicitly noindex at the HTTP header level.
+# Belt-and-suspenders with the client-side meta[name="robots"] injection.
+# The SPA shell (served via the /__story-lab/* rewrite) is not prerendered, so
+# there is no static HTML head to grep; the header is the reliable signal for
+# crawlers that would receive the shell before JS runs.
+/__story-lab/*
+  X-Robots-Tag: noindex, nofollow
+
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
