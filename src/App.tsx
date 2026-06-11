@@ -26,6 +26,10 @@ const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const GDPR = lazy(() => import('./pages/GDPR'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
+// Phase 4A lab — exp/story-lab-control-crossfade branch only.
+// Remove when Phase 4B extracts the winner to main.
+const StoryLabControl = lazy(() => import('./pages/story-lab/StoryLabControl'));
+
 const BROCHURE_PATHS = ['/brozura-hotely', '/brozura-zdravotnictvi', '/brozura-autoservisy'];
 
 /* Phase 3C: /en tree renders the same components — copy localizes via the
@@ -99,6 +103,8 @@ function AppLayout() {
           {/* Phase 3C: /cs mirrors redirect to canonical bare Czech paths (Option A) */}
           <Route path="/cs" element={<CsRedirect />} />
           <Route path="/cs/*" element={<CsRedirect />} />
+          {/* Phase 4A lab — exp/story-lab-control-crossfade branch only. Remove on Phase 4B merge. */}
+          <Route path="/__story-lab/control" element={<StoryLabControl />} />
           {/* Phase 3A: catch-all for unmatched client-side routes (fixes R12 soft 404) */}
           <Route path="*" element={<NotFound />} />
         </Routes>
