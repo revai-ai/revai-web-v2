@@ -130,6 +130,24 @@ export const PAGE_META: Record<RouteKey, PageMetaEntry> = {
     },
     priority: '0.7',
   },
+  /* Phase 3E — new page (B6 §8 allows new non-protected pages); indexable:
+     /demo is the headline conversion surface (B5), prerendered + sitemapped.
+     The page reads these strings directly (no useDocumentMeta duplicate). */
+  demo: {
+    meta: {
+      cs: {
+        title: 'Demo vašeho webu zdarma | REVAI',
+        description:
+          'Vložte adresu svého webu a my vám zdarma připravíme nezávaznou ukázku, jak může vypadat. Ozveme se do několika hodin v rámci pracovní doby.',
+      },
+      en: {
+        title: 'Free Demo of Your Website | REVAI',
+        description:
+          'Send us your website address and we will prepare a free, no-obligation demo of how it could look. We respond within a few hours during business hours.',
+      },
+    },
+    priority: '0.8',
+  },
   projects: {
     meta: {
       cs: {

@@ -13,6 +13,7 @@ const References = lazy(() => import('./pages/References'));
 const PricingPage = lazy(() => import('./pages/PricingPage'));
 const Blog = lazy(() => import('./pages/Blog'));
 const Contact = lazy(() => import('./pages/Contact'));
+const DemoRequest = lazy(() => import('./pages/DemoRequest'));
 const VoiceAgents = lazy(() => import('./pages/services/VoiceAgents'));
 const InternalAgents = lazy(() => import('./pages/services/InternalAgents'));
 const ModernWebDevelopment = lazy(() => import('./pages/services/ModernWebDevelopment'));
@@ -37,6 +38,7 @@ const EN_ROUTE_ELEMENTS: Record<RouteKey, ReactElement> = {
   modernWeb: <ModernWebDevelopment />,
   pricing: <PricingPage />,
   contact: <Contact />,
+  demo: <DemoRequest />,
   projects: <Projects />,
   references: <References />,
   blog: <Blog />,
@@ -64,6 +66,8 @@ function AppLayout() {
           <Route path="/cenik" element={<PricingPage />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/kontakt" element={<Contact />} />
+          {/* Phase 3E: website-URL demo request (B5 headline conversion) */}
+          <Route path="/demo" element={<DemoRequest />} />
           <Route path="/sluzby/hlasovi-agenti" element={<VoiceAgents />} />
           <Route path="/sluzby/automatizace-procesu" element={<InternalAgents />} />
           <Route path="/sluzby/tvorba-modernich-webu" element={<ModernWebDevelopment />} />

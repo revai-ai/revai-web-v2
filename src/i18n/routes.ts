@@ -9,6 +9,7 @@ export type RouteKey =
   | 'modernWeb'
   | 'pricing'
   | 'contact'
+  | 'demo'
   | 'projects'
   | 'references'
   | 'blog'
@@ -35,6 +36,7 @@ export const ROUTE_MAP: readonly RouteEntry[] = [
   { key: 'modernWeb', cs: '/sluzby/tvorba-modernich-webu', en: '/en/services/premium-websites' },
   { key: 'pricing', cs: '/cenik', en: '/en/pricing' },
   { key: 'contact', cs: '/kontakt', en: '/en/contact' },
+  { key: 'demo', cs: '/demo', en: '/en/demo' },
   { key: 'projects', cs: '/projekty', en: '/en/projects' },
   { key: 'references', cs: '/reference', en: '/en/references' },
   { key: 'blog', cs: '/blog', en: '/en/blog' },

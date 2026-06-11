@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
-import { CALENDAR_URL } from '../config/site';
 import type { Locale } from '../i18n/locales';
 import { LANG_STORAGE_KEY } from '../i18n/locales';
 import { localizedHref, switcherTarget } from '../i18n/routes';
@@ -142,14 +141,14 @@ export default function Navbar() {
               </button>
             </div>
 
-            <a
-              href={CALENDAR_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            {/* Phase 3E: the single persistent CTA routes to the demo request
+                (B5 — demo primary; consultation stays one click away on pages). */}
+            <Link
+              to={localizedHref('/demo', language)}
               className="bg-ifl-signal text-white px-6 py-3 rounded-full text-sm font-semibold hover:bg-ifl-signal-dark transition-all duration-300 ease-out active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ifl-signal focus-visible:ring-offset-2 focus-visible:ring-offset-ifl-canvas"
             >
-              {t('NEZÁVAZNÁ KONZULTACE', 'FREE CONSULTATION')}
-            </a>
+              {t('DEMO ZDARMA', 'FREE DEMO')}
+            </Link>
           </div>
 
           <button
@@ -248,15 +247,13 @@ export default function Navbar() {
               </button>
             </div>
 
-            <a
-              href={CALENDAR_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+            <Link
+              to={localizedHref('/demo', language)}
               onClick={() => setIsMenuOpen(false)}
               className="block w-full bg-ifl-signal text-white px-6 py-3 rounded-full font-semibold mt-4 text-center hover:bg-ifl-signal-dark transition-all duration-300 ease-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ifl-signal focus-visible:ring-offset-2 focus-visible:ring-offset-ifl-canvas"
             >
-              {t('NEZÁVAZNÁ KONZULTACE', 'FREE CONSULTATION')}
-            </a>
+              {t('DEMO ZDARMA', 'FREE DEMO')}
+            </Link>
           </div>
         </div>
       )}
