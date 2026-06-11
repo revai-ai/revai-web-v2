@@ -239,3 +239,74 @@ As required by the spike plan §1: Path 3 is the benchmark. The stock fallback a
 | Is owner approval required before generation? | **YES — spend + license** |
 | Is it safe to proceed to canvas branch implementation? | **NOT YET — license and spend must be approved first; canvas engine can be scaffolded but no asset generation until approved** |
 | Is Fable 5 justified for the next step? | **YES — once generation is approved, prompt engineering and visual asset direction require Fable 5** |
+
+---
+
+## 11. Cost preflight results
+
+> **Date:** 2026-06-11.
+> **Method:** `generate_image` with `get_cost: true` — no job submitted, zero credits spent.
+> **Owner approval:** owner-approved preflight only; no generation approval yet.
+> **Diagnostic prompt used:** "Premium editorial website reconstruction keyframe, warm paper canvas, graphite ink, forest green accents, right-weighted composition, no text."
+
+### 11.1 Per-call results
+
+| Model | Aspect ratio | Resolution tier | Credits (display) | Credits (exact) | Notes |
+|---|---|---|---|---|---|
+| `cinematic_studio_2_5` | 16:9 | 4K | **4** | 4.00 | Clean — no param adjustments |
+| `soul_cinematic` | 3:2 | 2K (default) | **1** | 0.12 | `resolution` param not supported; server confirmed default is already 2K |
+| `soul_location` | 3:2 | 2K (default) | **1** | 0.12 | `resolution` param not supported; 2K is implicit |
+| `recraft-v4-1` | 3:2 | 2K (standard) | **8** | 8.00 | `colors: ["#F6F4EF","#1E1B16","#4F6F4A"]` accepted without error — palette grounding confirmed viable |
+
+All four preflights returned without spending. No generation was triggered.
+
+### 11.2 Schema observations from preflight adjustments
+
+| Model | Adjustment returned | Implication |
+|---|---|---|
+| `soul_cinematic` | `params.resolution` omitted (unsupported); `params.quality` defaulted to `"2k"` | Resolution is fixed to 2K by default; cannot request 1K or 4K via this param |
+| `soul_location` | `params.resolution` omitted (unsupported) | Same — 2K is the implicit output tier |
+| `recraft-v4-1` | `params.batch_size` defaulted to 1; `params.model_type` defaulted to `"standard"` | A `"quality"` model_type may exist at higher credit cost; standard mode is the baseline |
+| `cinematic_studio_2_5` | No adjustments | All params accepted cleanly |
+
+### 11.3 Cost at full 5-frame spike scale (estimates, not approved)
+
+| Model | Per frame | 5 frames | 2 test frames (Moments 1+5) | % of 400-credit balance (5 frames) |
+|---|---|---|---|---|
+| `cinematic_studio_2_5` (4K, 16:9) | 4 credits | **20 credits** | 8 credits | 5% |
+| `soul_cinematic` (3:2, 2K default) | 0.12 credits | **0.60 credits** | 0.24 credits | <1% |
+| `soul_location` (3:2, 2K default) | 0.12 credits | **0.60 credits** | 0.24 credits | <1% |
+| `recraft-v4-1` (3:2, standard) | 8 credits | **40 credits** | 16 credits | 10% |
+
+All models are economically viable for a 5-frame spike at the current 400-credit balance. Even at maximum cost (`recraft-v4-1`, 5 frames), the total is 40 credits — 10% of balance, well within the owner's stated appetite for additional credits if needed.
+
+### 11.4 Model cost verdict
+
+| Model | Cost verdict | Recommendation |
+|---|---|---|
+| `cinematic_studio_2_5` | Reasonable (4 credits/frame, 4K) | **Primary candidate** — highest resolution, most cinematic |
+| `soul_cinematic` | Very low (0.12 exact credits/frame) | **Best value** — 2K, 3:2 native, supports the ~1800×1200 target; near-free iteration |
+| `soul_location` | Very low (0.12 exact credits/frame) | Appropriate for Moments 1 and 5 (scene-dominant, no character) at minimal cost |
+| `recraft-v4-1` | Moderate (8 credits/frame) | Only justified if explicit `colors` palette grounding proves essential for Direction A fidelity; otherwise `soul_cinematic` or `cinematic_studio_2_5` preferred |
+
+**No model is too expensive for the spike.** The blocking constraint remains commercial license confirmation, not credit cost.
+
+### 11.5 Approvals still required before actual generation
+
+| Approval | Status |
+|---|---|
+| Commercial license confirmation (starter plan) | **OPEN — must be verified manually before any asset enters the repo** |
+| Owner spend approval for Moment 1 + 5 test generation | **OPEN — cost now documented (8 credits for `cinematic_studio_2_5` × 2, or <1 credit for `soul_cinematic` × 2); owner must explicitly approve** |
+| Owner spend approval for full 5-frame set | **OPEN — separate approval step** |
+
+### 11.6 Recommended test generation scope (pending approval)
+
+Based on cost findings, the two-frame proof-of-concept (Phase 2R §3.3 — Moments 1 and 5 as tonal extremes) should run:
+
+1. **`soul_cinematic` first** — 0.24 credits total for both frames; 3:2 native; lowest-risk iteration path.
+2. **`cinematic_studio_2_5` second** — 8 credits total for both frames at 4K 16:9; use if `soul_cinematic` output is insufficient for the premium quality bar.
+3. **`recraft-v4-1` only if** Direction A palette fidelity cannot be achieved via prompting alone on the other models.
+
+### 11.7 Fable 5 justification for next step
+
+Confirmed. Once generation is approved, prompt engineering for cinematic stills and visual judgment on Direction A palette match require a storytelling-optimised model tier. Fable 5 is the correct model for that step, as documented in §9.
