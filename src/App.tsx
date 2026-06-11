@@ -25,6 +25,10 @@ const Projects = lazy(() => import('./pages/Projects'));
 const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
 const GDPR = lazy(() => import('./pages/GDPR'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+/* Story Lab (branch-only, Phase 4A §3): noindex prototype, never merged to main */
+const HomeCinematicLightLab = lazy(
+  () => import('./storylab/home-cinematic-light/HomeCinematicLight'),
+);
 
 const BROCHURE_PATHS = ['/brozura-hotely', '/brozura-zdravotnictvi', '/brozura-autoservisy'];
 
@@ -55,10 +59,12 @@ function CsRedirect() {
 function AppLayout() {
   const location = useLocation();
   const isBrochure = BROCHURE_PATHS.includes(location.pathname);
+  /* Story Lab routes are standalone cinematic surfaces — no site chrome */
+  const isStoryLab = location.pathname.startsWith('/__story-lab');
 
   return (
     <div className="min-h-screen bg-white">
-      {!isBrochure && <Navbar />}
+      {!isBrochure && !isStoryLab && <Navbar />}
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -88,6 +94,11 @@ function AppLayout() {
           <Route path="/brozura-zdravotnictvi" element={<BrochureZdravotnictvi />} />
           <Route path="/brozura-autoservisy" element={<BrochureAutoservisy />} />
           <Route path="/gdpr" element={<GDPR />} />
+          {/* Story Lab (branch-only): not in ROUTE_MAP/PAGE_META, emits noindex itself */}
+          <Route
+            path="/__story-lab/home-cinematic-light"
+            element={<HomeCinematicLightLab />}
+          />
           {/* Phase 3C: additive /en tree with English slugs (B2; plan §4.1 Option A) */}
           {ROUTE_MAP.map((entry) => (
             <Route
@@ -103,7 +114,7 @@ function AppLayout() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
-      {!isBrochure && <Footer />}
+      {!isBrochure && !isStoryLab && <Footer />}
     </div>
   );
 }

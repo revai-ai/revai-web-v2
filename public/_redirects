@@ -35,6 +35,10 @@
 /brozura-zdravotnictvi   /spa-shell.html   200
 /brozura-autoservisy   /spa-shell.html   200
 
+# Story Lab (Phase 4A §3 — EXPERIMENT BRANCH ONLY, never on main): lab routes
+# serve the SPA shell; the lab page itself emits noindex,nofollow.
+/__story-lab/*   /spa-shell.html   200
+
 # Phase 3D: hard 404 for everything else — must stay last. Replaces the old
 # "/* /index.html 200" SPA fallback (documented adjustment, plan §5.6): all
 # valid routes are either prerendered files, 301s above, or the explicit
