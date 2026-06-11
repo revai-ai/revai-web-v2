@@ -11,6 +11,17 @@
 /cs   /   301!
 /cs/*   /:splat   301!
 
+# Phase 3D/3E follow-up: canonical URLs have no trailing slash (sitemap,
+# canonical and hreflang all emit no-trailing), but Netlify's directory-index
+# handling 301s /demo -> /demo/ etc. for dist/<path>/index.html files. The
+# marker below is replaced at build time (scripts/prerender.ts) with one
+# explicit "<path> <path>/index.html 200" rewrite per prerendered route, so
+# the canonical no-trailing URL serves 200 directly. Deliberately excluded:
+# "/" (a real root file) and "/en/" (its canonical includes the slash, so the
+# Netlify /en -> /en/ 301 already lands on the canonical in one hop). /cs
+# paths stay 301s above — never rewritten.
+# @canonical-route-rewrites
+
 # Phase 3D: SPA-only routes (no prerendered HTML file) keep serving the SPA
 # shell with status 200. Every prerendered route is a real file in dist/ and
 # is served before any rule below (no rule below is forced with "!", and

@@ -137,6 +137,29 @@ function buildSitemap(): string {
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${body}\n</urlset>\n`;
 }
 
+/**
+ * One explicit rewrite per prerendered route so the canonical no-trailing
+ * URL returns 200 directly instead of Netlify's directory-index 301 to the
+ * trailing-slash form (observed on the 3D/3E deploy preview: /demo -> 301
+ * /demo/ while sitemap/canonical/hreflang say /demo). Excluded: '/' (real
+ * file at the root) and '/en/' (canonical includes the slash; the platform
+ * /en -> /en/ 301 is a single hop onto the canonical). /cs paths are never
+ * rewritten — they stay forced 301s.
+ */
+const REDIRECTS_MARKER = '# @canonical-route-rewrites';
+
+function canonicalRewriteRules(): string {
+  const rules: string[] = [];
+  for (const entry of ROUTE_MAP) {
+    for (const locale of LOCALES) {
+      const trimmed = entry[locale].replace(/\/+$/, '');
+      if (trimmed === '' || trimmed === '/en') continue;
+      rules.push(`${trimmed}   ${trimmed}/index.html   200`);
+    }
+  }
+  return rules.join('\n');
+}
+
 export function prerenderPlugin(): Plugin {
   let outDir = 'dist';
   let root = process.cwd();
@@ -187,8 +210,20 @@ export function prerenderPlugin(): Plugin {
       // 4. Build-time sitemap (overwrites the copied public/sitemap.xml).
       writeFileSync(join(distDir, 'sitemap.xml'), buildSitemap(), 'utf8');
 
+      // 5. Canonical no-trailing-slash rewrites: replace the marker in the
+      // copied _redirects (fails loudly if the marker is gone, so the rules
+      // and the 404 catch-all ordering can never silently drift apart).
+      const redirectsPath = join(distDir, '_redirects');
+      const redirects = readFileSync(redirectsPath, 'utf8');
+      if (!redirects.includes(REDIRECTS_MARKER)) {
+        throw new Error(`[prerender] _redirects marker not found: ${REDIRECTS_MARKER}`);
+      }
+      const rules = canonicalRewriteRules();
+      writeFileSync(redirectsPath, redirects.replace(REDIRECTS_MARKER, rules), 'utf8');
+
       console.log(
-        `[prerender] wrote ${pageCount} route heads (+404.html, spa-shell.html, sitemap.xml) to ${outDir}/`
+        `[prerender] wrote ${pageCount} route heads (+404.html, spa-shell.html, sitemap.xml, ` +
+          `${rules.split('\n').length} canonical rewrites) to ${outDir}/`
       );
     },
   };
