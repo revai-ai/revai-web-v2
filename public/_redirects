@@ -15,8 +15,12 @@
 # canonical and hreflang all emit no-trailing), but Netlify's directory-index
 # handling 301s /demo -> /demo/ etc. for dist/<path>/index.html files. The
 # marker below is replaced at build time (scripts/prerender.ts) with one
-# explicit "<path> <path>/index.html 200" rewrite per prerendered route, so
-# the canonical no-trailing URL serves 200 directly. Deliberately excluded:
+# explicit "<path> <path>/index.html 200!" rewrite per prerendered route, so
+# the canonical no-trailing URL serves 200 directly. The rules are FORCED —
+# unforced 200 rewrites did not override the platform slash normalization on
+# the deploy preview (the 301 fired before unforced rules). Safe to force:
+# each rule matches one exact route path and targets that route's own index
+# file. Deliberately excluded:
 # "/" (a real root file) and "/en/" (its canonical includes the slash, so the
 # Netlify /en -> /en/ 301 already lands on the canonical in one hop). /cs
 # paths stay 301s above — never rewritten.

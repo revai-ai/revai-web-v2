@@ -141,10 +141,14 @@ function buildSitemap(): string {
  * One explicit rewrite per prerendered route so the canonical no-trailing
  * URL returns 200 directly instead of Netlify's directory-index 301 to the
  * trailing-slash form (observed on the 3D/3E deploy preview: /demo -> 301
- * /demo/ while sitemap/canonical/hreflang say /demo). Excluded: '/' (real
- * file at the root) and '/en/' (canonical includes the slash; the platform
- * /en -> /en/ 301 is a single hop onto the canonical). /cs paths are never
- * rewritten — they stay forced 301s.
+ * /demo/ while sitemap/canonical/hreflang say /demo). The rules must be
+ * FORCED (200!): a second deploy preview showed unforced 200 rewrites do not
+ * override Netlify's slash normalization — the platform 301s /demo -> /demo/
+ * before unforced rules are consulted. Forcing is safe here because every
+ * rule matches one exact route path and targets that route's own index file.
+ * Excluded: '/' (real file at the root) and '/en/' (canonical includes the
+ * slash; the platform /en -> /en/ 301 is a single hop onto the canonical).
+ * /cs paths are never rewritten — they stay forced 301s.
  */
 const REDIRECTS_MARKER = '# @canonical-route-rewrites';
 
@@ -154,7 +158,7 @@ function canonicalRewriteRules(): string {
     for (const locale of LOCALES) {
       const trimmed = entry[locale].replace(/\/+$/, '');
       if (trimmed === '' || trimmed === '/en') continue;
-      rules.push(`${trimmed}   ${trimmed}/index.html   200`);
+      rules.push(`${trimmed}   ${trimmed}/index.html   200!`);
     }
   }
   return rules.join('\n');

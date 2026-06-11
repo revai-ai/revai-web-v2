@@ -151,10 +151,13 @@ Maintenance risk to watch: `src/i18n/pageMeta.ts` duplicates the `useDocumentMet
 
 The §11 deploy-preview pass surfaced one defect: Netlify's directory-index handling 301'd the canonical no-trailing URLs to their slash forms (`/demo` → `/demo/`, `/cenik` → `/cenik/`, …) because prerendered routes are `dist/<path>/index.html` files — while sitemap/canonical/hreflang all emit no-trailing URLs.
 
-**Fix (3D/3E shared):** `public/_redirects` gained a `# @canonical-route-rewrites` marker; `scripts/prerender.ts` step 5 replaces it at build time with one `"<path> <path>/index.html 200"` rewrite per `ROUTE_MAP` route (22 rules; `/` and `/en/` excluded — root is a real file, and `/en/`'s canonical includes the slash so the platform `/en` → `/en/` 301 is a single hop onto the canonical). The build fails loudly if the marker is missing. Consequences for this note:
+**Fix (3D/3E shared):** `public/_redirects` gained a `# @canonical-route-rewrites` marker; `scripts/prerender.ts` step 5 replaces it at build time with one `"<path> <path>/index.html 200!"` **forced** rewrite per `ROUTE_MAP` route (22 rules; `/` and `/en/` excluded — root is a real file, and `/en/`'s canonical includes the slash so the platform `/en` → `/en/` 301 is a single hop onto the canonical). The build fails loudly if the marker is missing.
+
+**Second iteration (same day):** the first version emitted *unforced* `200` rewrites, and the next deploy preview still returned `301 → /demo/` etc. — Netlify's directory-index/pretty-URL slash normalization fires **before** unforced rules are consulted, so they never matched. The rules are now **forced (`200!`)**, which is evaluated ahead of the platform normalization. Forcing is safe here because each rule matches exactly one route path and targets that route's own index file — nothing else can be shadowed. Consequences for this note:
 
 - `dist/_redirects` is **no longer byte-identical** to `public/_redirects` (supersedes the §3/§7 wording): the repo file carries the marker, the built file carries the generated rules.
 - Ordering invariants preserved and re-verified in built output: forced 301s and the `/cs` block first (byte-unchanged — `/cs` paths are never rewritten), generated rewrites next, SPA-only rewrites after (`/projekty` exact rule precedes the `/projekty/*` splat; first match wins), `/* /404.html 404` still **last**. Hard-404 behavior (§6) unchanged; sitemap unchanged.
 - Build log line now reads `… sitemap.xml, 22 canonical rewrites)`.
+- The generated canonical rules being forced does **not** affect the SPA-only rewrites or the 404 catch-all (both remain unforced and last, behind real-file serving), nor the forced 301s above them (exact legacy paths and `/cs/*` never overlap the canonical route paths).
 
 Full detail, validation results, and the deploy-preview recheck list live in `phase-3e-demo-request-validation.md` §9.

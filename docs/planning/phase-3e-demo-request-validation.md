@@ -125,29 +125,31 @@ The first deploy-preview smoke POSTed the URL under the key **`websiteUrl`**, wh
 
 Observed on the deploy preview: `/demo` → `301 Location: /demo/` (same for `/en/demo` and the other prerendered routes). Cause: prerendered routes are `dist/<path>/index.html` files, and Netlify's directory-index handling 301s the no-slash form to the slash form — while sitemap, canonicals and hreflang all emit **no-trailing** URLs. The canonical URL must be the 200, not a 301.
 
-**Fix:** `public/_redirects` now contains a `# @canonical-route-rewrites` marker that `scripts/prerender.ts` replaces at build time with one explicit rewrite per prerendered route (22 rules, derived from `ROUTE_MAP` — cannot drift from the route set):
+**Fix:** `public/_redirects` now contains a `# @canonical-route-rewrites` marker that `scripts/prerender.ts` replaces at build time with one explicit **forced** rewrite per prerendered route (22 rules, derived from `ROUTE_MAP` — cannot drift from the route set):
 
 ```
-/demo   /demo/index.html   200
-/en/demo   /en/demo/index.html   200
-/cenik   /cenik/index.html   200
+/demo   /demo/index.html   200!
+/en/demo   /en/demo/index.html   200!
+/cenik   /cenik/index.html   200!
 … (one per route, both locales)
 ```
+
+**Why forced (second iteration, 2026-06-11):** the first version used unforced `200` rewrites, and the next deploy preview **still** 301'd `/demo` → `/demo/` (likewise `/en/demo`, `/cenik`, `/sluzby/automatizace-procesu`, `/en/services/process-automation`) — Netlify's directory-index/pretty-URL slash normalization runs **before** unforced rules, so they were never consulted. Forced `200!` rules are evaluated ahead of that normalization. Forcing is safe here: each rule matches exactly one route path and serves that route's own index file, so nothing else can be shadowed. The SPA-only rewrites and the 404 catch-all stay unforced; the function smoke (already green: valid `website` POST → 200, `_honeypot` → fake 200, invalid payload → 400) is unaffected — no function code changed.
 
 Placement and invariants (verified in built `dist/_redirects`):
 
 - Rules sit **after** the forced 301s (`emailova-automatizace`, `interni-agenti` — byte-unchanged) and the `/cs` 301 block (`/cs` paths are never rewritten, they remain 301s), and **before** the SPA-only rewrites and the final `/* /404.html 404` catch-all (still last).
 - Excluded by design: `/` (real file at the root, already 200) and `/en/` (its canonical *includes* the trailing slash, so the platform `/en` → `/en/` 301 lands on the canonical in one hop).
-- No redirect chains: every rewrite is a direct 200; `/cs/demo` → `/demo` (one hop) → 200.
+- No redirect chains: every rewrite is a direct 200; `/cs/demo` → `/demo` (one hop) → 200. The forced 301s sit above the forced 200s, and their paths never overlap, so first-match ordering still resolves legacy slugs to redirects.
 - The exact `/projekty` rewrite precedes the `/projekty/*` SPA splat — first match wins, so `/projekty` serves its prerendered head and `/projekty/:id` still hits `spa-shell.html`.
 - Build fails loudly if the marker disappears from `public/_redirects` (prevents the rules and the catch-all ordering from silently drifting).
 - Sitemap unchanged: 24 URLs, no-trailing (only `/` and `/en/` carry a slash), `/demo` + `/en/demo` present, no `/cs`.
 
 `dist/_redirects` is therefore **no longer byte-identical** to `public/_redirects` (supersedes the §5 row): the repo file holds the marker, the built file holds the generated rules. 3D note §14 records the same change from the 3D side.
 
-### 9.3 Validation (2026-06-11)
+### 9.3 Validation (2026-06-11, re-run after the `200!` change)
 
-`npm run typecheck` ✅ · `npm run lint` ✅ (same 3 pre-existing warnings) · `npm run build` ✅ — `[prerender] wrote 24 route heads (+404.html, spa-shell.html, sitemap.xml, 22 canonical rewrites)`. Inspected `dist/_redirects` ordering (as §9.2), sitemap (24 no-trailing URLs, no `/cs`), spot-checked canonicals (`/demo`, `/en/demo`, `/cenik`, `/en/services/process-automation` — all no-trailing).
+`npm run typecheck` ✅ · `npm run lint` ✅ (same 3 pre-existing warnings) · `npm run build` ✅ — `[prerender] wrote 24 route heads (+404.html, spa-shell.html, sitemap.xml, 22 canonical rewrites)`. Inspected `dist/_redirects` ordering (as §9.2, all 22 generated rules ending `200!`), sitemap (24 no-trailing URLs, no `/cs`), spot-checked canonicals/hreflang (`/demo`, `/en/demo`, `/cenik`, `/en/services/process-automation` — all no-trailing).
 
 ### 9.4 Deploy-preview checks to re-run
 
