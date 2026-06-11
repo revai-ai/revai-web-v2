@@ -1,0 +1,125 @@
+/* Story Lab — home-cinematic-light. Scoped sl-* utilities only. */
+
+/* Editorial display serif for the narrative voice (system stack, zero deps). */
+.sl-serif {
+  font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua',
+    Georgia, 'Times New Roman', serif;
+}
+
+/* Idle breathing — keeps the world alive in both chaos and order states. */
+@keyframes sl-float {
+  0%,
+  100% {
+    transform: translateY(-3px);
+  }
+  50% {
+    transform: translateY(3px);
+  }
+}
+.sl-float {
+  animation: sl-float var(--sl-dur, 6s) ease-in-out var(--sl-delay, 0s) infinite;
+}
+
+/* Energy flowing along the lattice connectors (user-space units, 0–100 viewBox). */
+@keyframes sl-flow {
+  to {
+    stroke-dashoffset: -20;
+  }
+}
+.sl-flow {
+  stroke-dasharray: 0.4 1.6;
+  animation: sl-flow 8s linear infinite;
+}
+
+/* Restless chaos lighting. */
+@keyframes sl-drift-a {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(3vw, -2vh);
+  }
+}
+@keyframes sl-drift-b {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-2.5vw, 2.5vh);
+  }
+}
+.sl-drift-a {
+  animation: sl-drift-a 14s ease-in-out infinite;
+}
+.sl-drift-b {
+  animation: sl-drift-b 18s ease-in-out infinite;
+}
+
+/* Scroll cue line. */
+@keyframes sl-cue {
+  0% {
+    transform: scaleY(0);
+    opacity: 0;
+  }
+  35% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1) translateY(16px);
+    opacity: 0;
+  }
+}
+.sl-cue {
+  transform-origin: top;
+  animation: sl-cue 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+/* Live-system status dot. */
+@keyframes sl-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.8);
+  }
+}
+.sl-pulse {
+  animation: sl-pulse 2.2s ease-in-out infinite;
+}
+
+/* Progress-rail act label crossfade. */
+@keyframes sl-label-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.sl-label-in {
+  animation: sl-label-in 0.5s var(--ifl-ease, ease-out) both;
+}
+
+/* Film grain — subtle, applied at very low element opacity. */
+.sl-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sl-float,
+  .sl-flow,
+  .sl-drift-a,
+  .sl-drift-b,
+  .sl-cue,
+  .sl-pulse {
+    animation: none;
+  }
+}
