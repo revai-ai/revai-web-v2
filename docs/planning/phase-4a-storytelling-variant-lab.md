@@ -162,3 +162,54 @@ Each branch is scored against all 14 criteria in `phase-4a-storytelling-scorecar
 - **Services section reorder.** Phase 4C work, after the winner lands.
 - **Secondary automation chapter placement.** B4 "layer" decision. Phase 4C.
 - **Hero ambient upgrade.** Phase 4C — the Hero is untouched in 4A.
+
+---
+
+## Addendum (2026-06-11) — Primary direction decided; §1 homepage arc superseded
+
+> This addendum supersedes the four-way bake-off framing and the §1 narrative arc as it applies to the homepage.
+> Full detail in `phase-4a-primary-cinematic-direction.md`.
+
+### A.1 Variant status change
+
+| Branch | Status |
+|---|---|
+| `exp/story-lab-canvas-higgsfield` | **Closed** — learning/proof branch. Pipeline mechanics proven; visual direction rejected by owner (too close to warm-paper production style; not cinematic enough). Not merged as winner. |
+| `exp/story-lab-control-crossfade` | **Retained** — baseline/control engine for the scorecard; also the secondary-chapter engine for the automation arc (per Phase 2R §7.1). Not deprecated. |
+| `exp/story-lab-layered-dom` | **Parked** — revisit only if the cinematic direction fails its gates. |
+| `exp/story-lab-guiding-signal` | **Parked** — revisit only if the cinematic direction fails its gates. |
+| `exp/story-lab-cinematic-chaos-order` | **Active — primary direction.** Branch already created locally. |
+
+### A.2 Homepage arc correction
+
+The §1 narrative arc (before→transformation→connected→engine→CTA, framed around website-building) was written
+under the assumption the homepage would reposition toward premium web design. The owner's direction **reverses**
+this:
+
+- **Homepage** keeps the **AI process automation** arc (chaos→order). B6-safe — maps directly to existing
+  `STORY_SCENES_C` scene IDs; no H1/title/meta change required.
+- **Website-building** arc relocates to `/sluzby/tvorba-modernich-webu` (planning only in Phase 4A; lab route
+  first, never edits the live service page in this phase).
+
+**§1 of this document is therefore superseded for the homepage arc.** The five-stage structure remains
+correct; the *subject* changes from web-rebuild to AI-automation chaos→order:
+
+| Stage | Beat | `STORY_SCENES_C` id |
+|---|---|---|
+| 1 | Scattered processes / manual chaos | `manual-chaos` |
+| 2 | Signal emerges / pattern recognition | `ai-routing` |
+| 3 | Structure and workflows align | `automation-execution` |
+| 4 | AI automation network connects systems | `systems-connected` |
+| 5 | Calm business operating system / measurable order | `measurable-output` |
+
+### A.3 New branch and lab route
+
+- **Branch:** `exp/story-lab-cinematic-chaos-order`
+- **Lab route:** `/__story-lab/cinematic-chaos-order`
+- **Routing:** branch-only `_redirects` `200` rewrite for `/__story-lab/*`; same noindex + sitemap-exclusion
+  rules as §3 of this document. **Not** added to `ROUTE_MAP`, `PAGE_META`, or `dist/sitemap.xml`.
+
+### A.4 Asset gate sequence
+
+Bookend-first: Stage 1 + Stage 5 generated and owner-evaluated before Stages 2–4. Lab route scaffolded only
+after the full five-stage set passes the acceptance gates. See `phase-4a-primary-cinematic-direction.md` §6 + §8.

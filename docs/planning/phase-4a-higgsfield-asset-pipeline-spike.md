@@ -1,10 +1,14 @@
 # Phase 4A — Higgsfield Asset Pipeline Spike
 
-> **Status:** planning only. Higgsfield is **spike-only**; it is not an approved production pipeline.
+> **Status:** Spike ran. Pipeline mechanics proven. Visual direction rejected. See Addendum (2026-06-11).
 > **Date:** 2026-06-11.
 > **Inputs:** `phase-2r-creative-tooling-spike.md` §3.1–3.3, `phase-4a-storytelling-variant-lab.md` §2.1 (canvas-higgsfield branch).
 > **Gate state:** Phase 2R closed Higgsfield as "spike-only (NOT approved)" pending owner approval of spend + licensing. This document concretises the spike scope for the `exp/story-lab-canvas-higgsfield` branch. The Phase 2R verdict stands until the spike runs and the owner approves.
 > **Hard stops inherited from Phase 2R:** no Higgsfield spend without owner approval; no asset with unclear license enters `public/`; runtime video rejected by default.
+>
+> **Filename discrepancy note:** Some Phase 4A planning references a file named
+> `phase-4a-higgsfield-moment-1-5-spike.md`. **That file does not exist.** This file
+> (`phase-4a-higgsfield-asset-pipeline-spike.md`) is the equivalent. All such references should resolve here.
 
 ---
 
@@ -198,3 +202,50 @@ If Higgsfield cannot satisfy the licensing, payload, or quality requirements:
 - The scorecard C8 (repeatability) will reflect stock-pipeline repeatability, which is a strength
 - The Higgsfield spike result is documented as "stock fallback selected" with the reason
 - The Phase 2R Higgsfield exit criterion 3 (`04` §exit) remains open until either the spike passes or the stock path is formally adopted as the production default
+
+---
+
+## Addendum (2026-06-11) — M1/M5 bookend spike ran; visual direction rejected; re-scoped
+
+### Spike result
+
+The Moment 1 + Moment 5 bookend spike ran. Outputs are in `higgsfield-eval-phase4a/` (a directory that
+lives **outside the repo** and is `DO-NOT-COMMIT`; it is not tracked by git and must not be `git add`-ed).
+
+| Sub-question | Verdict |
+|---|---|
+| Pipeline mechanics (compression, path, tooling) | **Proven** — the accepted stills compressed within budget; the pipeline steps are reproducible. |
+| Visual direction | **Rejected by owner** — the accepted M1–M5 stills show a glass browser-window shattering/reassembling on a warm beige studio backdrop. This reads too close to the existing warm-paper production style and is insufficiently cinematic. |
+
+**Consequence:** `exp/story-lab-canvas-higgsfield` is closed as a **learning/proof branch** — the pipeline
+is the learning; the visual direction is not the winner. The branch is not merged.
+
+### Re-scope: bookend regeneration for the cinematic direction
+
+The Higgsfield asset pipeline is re-applied to the **cinematic chaos→order direction**
+(`exp/story-lab-cinematic-chaos-order`). The asset brief changes substantially:
+
+| Moment | Old brief (rejected) | New brief (cinematic direction) |
+|---|---|---|
+| 1 — Chaos | Dim, cluttered legacy website screenshot in shadow | Cold, dark void; fragmented tool-shards, document-pieces, UI-elements floating disconnected — no product-photography register |
+| 5 — Order | Warm dashboard/growth still; person at ease | Serene, resolved composition; warm emergent light; clean measurable-output signals — cinematic, not product-photo |
+
+The §2.2 asset brief in this document (the glass-browser/website-rebuild brief) is **superseded** for the
+primary direction. The new brief is in `phase-4a-primary-cinematic-direction.md` §2 + §6.
+
+### Baseline to beat
+
+The accepted M1/M5 stills are the **explicit baseline** new bookends must surpass on the cinematic
+acceptance gates (`phase-4a-primary-cinematic-direction.md` §7.1). Being visually different from those
+stills is a pass condition, not just a nice-to-have.
+
+### Asset location and gate (restated)
+
+`higgsfield-eval-phase4a/` is `DO-NOT-COMMIT`. **No asset from that directory may be copied into any
+branch's `public/` or committed to the repo without passing the Phase 4A performance gate** (≤ 350 KB total
+story payload, Lighthouse desktop ≥ 90 / mobile ≥ 85 on a deploy preview). This rule applies to the
+re-generated bookends for the cinematic direction exactly as it applied to the original set.
+
+### Runtime video (restated)
+
+Runtime video remains rejected by default throughout Phase 4A (§4.5 of this document, unchanged).

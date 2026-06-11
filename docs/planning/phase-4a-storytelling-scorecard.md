@@ -403,3 +403,54 @@ Before any winner is declared, the following must be complete:
 5. The owner reviews the Opus recommendation and signs off.
 
 **A Sonnet-tier or Fable-tier scorecard review is not sufficient for the winner decision.** This is the last strategic gate before committing to an implementation approach that will be replicated across client projects. It gets the strongest tier.
+
+---
+
+## Addendum (2026-06-11) — Cinematic-direction acceptance gates for `exp/story-lab-cinematic-chaos-order`
+
+> Applies specifically to the primary cinematic direction branch. These gates are **pre-scoring checks**:
+> a branch that fails any of the four cinematic gates below is revised before scorecard scoring begins.
+> Full context: `phase-4a-primary-cinematic-direction.md` §7.
+
+### Cinematic acceptance gates (evaluated before scorecard scoring)
+
+| Gate | Pass condition | Evidence form |
+|---|---|---|
+| **Distinct from production** | The visual language clearly differs from the existing warm-paper / product-photography production style visible on the live site | Side-by-side screenshot comparison: lab route vs. current homepage story section |
+| **Visibly cinematic** | Dark field, light-as-signal, emergence, transformation — not a product-photography or warm-studio register | Screen recording or screenshots of Stage 1 + Stage 5 bookends; at least one independent observer comment |
+| **Business meaning without text** | A viewer unfamiliar with REVAI can infer the chaos→order AI-automation meaning from the cinematic image alone, without reading the copy | Show Stage 1 + Stage 5 images without copy to at least one observer; record their interpretation |
+| **Homepage still reads as AI automation** | The five-stage cinematic sequence, read with existing copy, tells an AI-automation story — not a web-design or web-agency story | Structured review note: does Stage 1 read as process chaos? Does Stage 5 read as measured automation output? |
+
+### How cinematic gates interact with C1–C14
+
+- **C1 (Premium wow):** The cinematic gates inform C1 but are separate. A branch can pass C1 (clearly premium)
+  while still failing "distinct from production" (e.g. a warm-paper variant that is beautiful but indistinct).
+  Both must pass independently.
+- **C3 (Business-story clarity):** The "business meaning without text" gate is a precondition for scoring C3.
+  If the meaning is not legible without text, C3 cannot score higher than 2.
+- **C12 (SEO safety):** Unchanged — the lab route must be noindex and excluded from sitemap regardless of
+  cinematic direction.
+
+### Scorecard template addendum for `exp/story-lab-cinematic-chaos-order`
+
+Add these four lines to the scorecard instance for this branch, above C1:
+
+```
+─────────────────────────────────────────────────────────
+CINEMATIC GATE PRE-CHECK (required before C1–C14 scoring)
+
+GC1  Distinct from production                [ ] PASS  [ ] REVISE
+     Evidence:
+
+GC2  Visibly cinematic                       [ ] PASS  [ ] REVISE
+     Evidence:
+
+GC3  Business meaning without text           [ ] PASS  [ ] REVISE
+     Evidence (observer summary):
+
+GC4  Homepage reads as AI automation         [ ] PASS  [ ] REVISE
+     Evidence:
+
+All four gates PASS before scoring begins:   [ ] YES   [ ] NO — revise first
+─────────────────────────────────────────────────────────
+```
