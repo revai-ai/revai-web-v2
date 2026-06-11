@@ -12,6 +12,14 @@
 - Dynamic workflows stay **off** unless a gate explicitly calls for an independent cross-check (only Phase 7 might).
 - Model selection must follow **D15** in `docs/planning/01-decision-brief.md`; the per-phase settings below are the current application of that policy.
 
+**Global model policy (applies across all phases; per-phase notes below refine this):**
+
+| Model | Use for |
+|---|---|
+| **Sonnet 4.6** | Planning docs, scoped fixes, headers/config, form validation, routing wiring, simple components, any diff that is small and well-understood |
+| **Fable 5** | Storytelling prototypes, Higgsfield/canvas pipeline, production visual implementation, large motion-engine work, complex component composition, performance-intensive build tasks |
+| **Opus 4.8** | SEO/security/dependency review, pre-merge architecture review on SEO-sensitive change sets, final Phase 4A variant selection, compliance/consent review, any gate where the blast radius of a wrong call is high and hard to reverse |
+
 ---
 
 ## Phase 0 — Baseline validation
@@ -66,16 +74,55 @@
 
 ---
 
-## Phase 4 — Homepage / storytelling implementation
-**Goal:** Build the premium-web homepage on the existing motion engine, with the new narrative + primary conversion band. *(confidence: medium)*
+## Phase 4A — Storytelling Variant Lab
+**Goal:** Compare multiple premium scroll-storytelling approaches in a controlled R&D lab before committing any to the live homepage. Produce a scored, Opus-reviewed winner decision. *(confidence: high on process; outcome TBD)*
 
-- **Inputs:** Phase 3 foundation; approved palette + assets (Phase 2); homepage section order (`02`); CZ+EN copy (B7); hero-CTA decision (B5).
-- **Outputs:** Repositioned `Home.tsx` composition; adapted `Hero` (premium copy, fixed eyebrow); new premium scene data in `imageStoryData`; reordered `Services` (D3); demo-request conversion band wired to `demo-request.mts`; optional secondary automation chapter (if B4 = layer); FAQ structured data.
-- **Allowed changes:** `pages/Home.tsx`, `components/home/*`, `components/sections/*`, story scene data, new section components, premium-web service page promotion.
-- **Forbidden changes:** Editing the motion **engine internals** beyond generalization agreed in Phase 3; `/cenik`; enabling tracking; changing automation page URLs.
-- **Validation commands:** `typecheck && lint && build`; Lighthouse (perf/SEO/a11y) on `/` desktop + mobile; reduced-motion path check; verify primary CTA + demo flow submit end-to-end against test inbox; CZ/EN parity check.
-- **Approval gate:** Owner approves the live homepage narrative + that perf/mobile budgets hold (the brief's hard constraint: wow must not cost mobile smoothness/speed).
-- **Recommended Claude Code run settings:** **Fable 5 / High** for the homepage/storytelling implementation (composition, hero, scene data, sections, demo band). **Opus 4.8 / Medium-High** for the **narrative/conversion review** — the repositioning wording carries SEO risk (R1) and the CTA hierarchy is a strategic call, so the *content/conversion* judgement gets the stronger tier even though the build is Fable 5. *(confidence: high)*
+- **Inputs:** Phase 3 foundation (`main` at post-3F tip); Phase 2R palette + Direction A; `phase-4a-storytelling-variant-lab.md`; `phase-4a-storytelling-scorecard.md`; `phase-4a-higgsfield-asset-pipeline-spike.md`; B5 approved (demo primary); B7 (copy owner — DRAFT copy only in 4A).
+- **Outputs:** 4 experiment branches (`exp/story-lab-control-crossfade`, `exp/story-lab-canvas-higgsfield`, `exp/story-lab-layered-dom`, `exp/story-lab-guiding-signal`) each with a lab route, completed scorecard, Lighthouse reports, and asset pipeline documentation; Higgsfield spike result (license + payload + quality delta); Opus-tier winner recommendation; owner sign-off on winner.
+- **Allowed changes:** new `exp/story-lab-*` branches only; new `src/components/story-lab/` or equivalent directory per branch; new lab route components (noindex); `__story-lab/*` rewrite in branch `_redirects` only; story asset directories per branch. **No changes to existing homepage components, `main` branch `_redirects`, or `ROUTE_MAP`/`PAGE_META`.**
+- **Forbidden changes:** Homepage H1/title/meta/static head (B6 frozen); `/cenik`; enabling tracking; protected `/sluzby/*` slugs; production `_redirects` or sitemap; dependency installs without the approved dependency pass.
+- **Validation commands:** `npm run typecheck && npm run lint && npm run build` on each branch; `grep "noindex"` in each lab route's served HTML; Lighthouse (desktop + mobile) from a deploy-preview build per branch; `du -sh` on story asset directories; `grep -r "__story-lab" src/i18n/` returns empty.
+- **Approval gate:** Opus-tier review of all completed scorecards + Lighthouse reports + diffs; owner approves the winner before Phase 4B begins. **No branch advances without passing all production gates in `phase-4a-storytelling-variant-lab.md` §4.**
+- **Recommended Claude Code run settings:** **Fable 5 / High** for all storytelling prototype implementation (canvas pipeline, DOM parallax compositions, motion choreography, scene data authoring). **Sonnet 4.6** for scorecard documentation, lab route boilerplate, noindex wiring, and validation scripts. **Opus 4.8 / High** for the **final variant selection review** — this is the strategic call that determines the client-project methodology; it gets the strongest tier. *(confidence: high)*
+
+---
+
+## Phase 4B — Winner productionization
+**Goal:** Extract the Phase 4A winning approach from its experiment branch and build it to production quality: engine-clean, token-clean, i18n-complete, and performance-proven. *(confidence: medium — depends on 4A winner)*
+
+- **Inputs:** 4A winner branch + signed scorecard; approved palette (Phase 2R Direction A); Higgsfield/stock assets with confirmed license; B7 copy owner assigned.
+- **Outputs:** Production-quality storytelling component (new directory under `src/components/home/` or a dedicated path agreed in 4A); new `imageStoryDataPremium.ts` (or dictionary-backed equivalent per B7); story assets in `public/story/p/`; methodology document for client-project reuse.
+- **Allowed changes:** New story component(s); `public/story/p/` asset directory; new scene data file; token/variant additions agreed in 4A. **`imageStoryData.ts` and the existing engine are untouched** unless the winner requires a small, separately-reviewed generalization (e.g. parameterising the TIMING array count).
+- **Forbidden changes:** B6-frozen surfaces; `/cenik`; tracking; protected `/sluzby/*` slugs; engine internals beyond the agreed generalization.
+- **Validation commands:** `typecheck && lint && build`; Lighthouse (perf/SEO/a11y) desktop + mobile on the story component in isolation; reduced-motion path check; CZ/EN parity; `public/story/p/` payload ≤ 350 KB.
+- **Approval gate:** Owner approves story assets + production-quality component before Phase 4C wires it into the live homepage.
+- **Recommended Claude Code run settings:** **Fable 5 / High** for the production story component, canvas pipeline if applicable, and visual polish. **Opus 4.8 / Medium** for the **production quality review** — perf budgets and reduced-motion correctness; lower blast radius than 4A selection but still SEO-adjacent (homepage perf). *(confidence: medium-high)*
+
+---
+
+## Phase 4C — Homepage integration
+**Goal:** Wire the Phase 4B production story component into the live `Home.tsx`; reorder sections per `02`; adapt `Hero.tsx` ambient upgrade and CTA (B5); relocate the automation chapter (B4 "layer" decision). *(confidence: medium)*
+
+- **Inputs:** Phase 4B productionized component; Phase 3 foundation; approved homepage section order (`02`); B4/B5/B6/B7 gate states at time of execution.
+- **Outputs:** Repositioned `Home.tsx` composition with premium-web story leading; adapted `Hero.tsx` (ambient upgrade; B5 CTA wiring confirmed); `Services.tsx` reordered (D3); automation chapter relocated to compact card-stack form (B4 default); `DemoRequestBand` component wired to `demo-request.mts` (new `home/DemoRequestBand.tsx`); `ShowcaseTeaser` for demo concepts (new `home/ShowcaseTeaser.tsx`); FAQPage structured data scaffold.
+- **Allowed changes:** `pages/Home.tsx`, `components/home/*`, `components/sections/*`, new section components. B6-frozen: homepage H1, title, meta description, and static `index.html` head wording — the only permitted delta remains the AMAI→REVAI brand suffix (already done in 3B). **Post-B6 close only:** H1 evolution per the phased meta-change plan; not in 4C scope unless B6 explicitly closes first.
+- **Forbidden changes:** `/cenik`; enabling tracking; automation URL changes; motion engine internals beyond what 4B agreed.
+- **Validation commands:** `typecheck && lint && build`; Lighthouse on `/` desktop + mobile; reduced-motion path; primary CTA (`/demo`) smoke test; CZ/EN parity; homepage H1/title/meta diff against B6 baseline (only brand suffix permitted).
+- **Approval gate:** Owner approves the live homepage composition + that perf/mobile budgets hold.
+- **Recommended Claude Code run settings:** **Fable 5 / High** for homepage composition, hero wiring, section reorder, new band components. **Opus 4.8 / Medium-High** for the **narrative/conversion review** — the repositioning wording carries SEO risk (R1) and the CTA hierarchy is a strategic call; content judgement gets the stronger tier. *(confidence: medium)*
+
+---
+
+## Phase 4D — Polish / performance / accessibility
+**Goal:** Harden the Phase 4C homepage to production quality: a11y pass, Lighthouse targets met, CZ/EN parity, reduced-motion correctness, lazy/priority loading strategy for story images, font loading decision. *(confidence: medium-high)*
+
+- **Inputs:** Phase 4C homepage; Lighthouse reports; a11y audit; B3 (approved); B7 copy (final for this phase).
+- **Outputs:** a11y-clean homepage (WCAG 2.1 AA); Lighthouse desktop ≥ 90 perf / ≥ 95 SEO; mobile ≥ 85 perf; story image loading strategy (`loading`/`fetchpriority` pass on scenes 2–5); web-font adoption decision executed if owner approves (Phase 2R §5 pending decision, D14); `og:image` replacement if asset approved.
+- **Allowed changes:** a11y/perf/polish fixes; image loading attributes; optional font adoption (gated); `og:image` swap if approved asset exists.
+- **Forbidden changes:** New features; `/cenik`; tracking; unreviewed redirect changes.
+- **Validation commands:** `typecheck && lint && build`; Lighthouse (all four categories) desktop + mobile; axe a11y; keyboard + screen-reader walkthrough; reduced-motion; CZ/EN; B6 homepage head diff.
+- **Approval gate:** Owner confirms perf and a11y targets met before Phase 5 begins.
+- **Recommended Claude Code run settings:** **Fable 5 / Medium** for polish fixes, loading attributes, font wiring. **Opus 4.8 / Medium** for the **a11y + perf final QA** — last check before homepage ships to the indexed domain. *(confidence: high)*
 
 ---
 
@@ -121,9 +168,10 @@
 ## Phase dependency summary
 
 ```
-P0 baseline ──▶ P1 decisions ──▶ P2 spike ──▶ P3 foundation ──▶ P4 homepage ──▶ P5 demos ──▶ P6 analytics ──▶ P7 QA/deploy
-  │ B1            │ B2/B3/B4/B5/B7/B8   │ B9/G        │ B10/B6           │ B5/B7
-  └─ must answer B1 before anything outward-facing; B6 before any homepage meta change; consent (P6) before any tracking.
+P0 baseline ──▶ P1 decisions ──▶ P2 spike ──▶ P3 foundation ──▶ P4A lab ──▶ P4B winner ──▶ P4C homepage ──▶ P4D polish ──▶ P5 demos ──▶ P6 analytics ──▶ P7 QA/deploy
+  │ B1            │ B2/B3/B4/B5/B7/B8   │ B9/G        │ B10/B6           │ scorecard   │ assets/copy  │ B5/B7         │ a11y/perf
+  └─ must answer B1 before anything outward-facing; B6 before any homepage meta change (4C/H1); consent (P6) before any tracking.
+  └─ model policy: Sonnet 4.6 (docs/fixes/validation) · Fable 5 (storytelling/visual/motion) · Opus 4.8 (SEO/security/4A selection/final QA)
 ```
 
 **Critical-path risks to watch (from `docs/audit/03`):** R1 (SEO loss) gates P1→P3→P4; R2 (i18n) gates P1→P3; R3 (consent) gates P6 and constrains P0–P5 (no tracking); R20/B1 (copied repo) gates P0. *(confidence: high that this ordering minimizes regret; magnitudes of R1/R5/R8 remain Assumption-level until real build + analytics exist.)*

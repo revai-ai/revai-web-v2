@@ -195,6 +195,43 @@ Together the three prove range across **dark-luxury / cool-product / warm-cinema
 |---|---|
 | 1. Decision for every tool | Creative-scope tools: done (§3.1). CMP/Pixel/lead-storage items: already decided/designed in `04`/`03`/Phase-3 plan (B9 email-only recorded). |
 | 2. Palette directions as token candidates | **Done** (§1) — pending owner pick. |
-| 3. Production-weight sample in the real engine + perf delta | **Open** — blocked on owner approving the §3.3 spike (paid) or the stock alternative purchase. |
+| 3. Production-weight sample in the real engine + perf delta | **Open** — moved to Phase 4A. The Higgsfield spike is now scoped in `phase-4a-higgsfield-asset-pipeline-spike.md` and runs on the `exp/story-lab-canvas-higgsfield` branch. Exit criterion 3 closes when the spike's exit criteria (`phase-4a-higgsfield-asset-pipeline-spike.md` §5) are met and the owner approves. |
 | 4. Consent + event contract designed | Done earlier (`03` §6, `04` §D/E) — not a 2R surface. |
 | 5. Lead-storage decision | Done (B9 email-only, Phase-3 plan §6). |
+
+---
+
+## 7. Addendum (2026-06-11) — 2R feeds Phase 4A Storytelling Variant Lab
+
+This addendum supersedes any assumption that the five-scene crossfade `ImageStoryStackC` is the definitive homepage storytelling engine. Phase 3 (3A–3F) is complete. The business requirement has evolved: the homepage storytelling must not assume a single implementation pattern. Phase 4A runs a controlled comparison lab before committing.
+
+### 7.1 ImageStoryStackC role: baseline/control and secondary chapter
+
+The existing `ImageStoryStackC` engine (five-scene crossfade pin, 1100vh, `motion/react`) is **not deprecated and not replaced by Phase 4A planning.** It serves two roles going forward:
+
+1. **Baseline/control** in the Phase 4A lab (`exp/story-lab-control-crossfade`) — the known-good benchmark that every other variant must beat on the scorecard to win.
+2. **Secondary chapter engine** — the current automation story data (`STORY_SCENES_C` in `imageStoryData.ts`) remains useful as the compact B4 "layer" chapter between Services and the demo-concept teaser (per `02` §homepage order, row 6), rendered as a card-stack at all breakpoints per the 2R §2.4 recommendation. This avoids a second 1100vh pin.
+
+The engine's internals (`ImageStoryScene.tsx` TIMING array, scrim gradient, two-layer composition) are not modified in Phase 4A — only the data file changes if a new scene set is authored.
+
+### 7.2 Main homepage target: may require a new continuous storytelling engine
+
+The Phase 4A narrative arc (outdated site → premium rebuild → connected systems → /demo CTA) may be better expressed by a continuous, non-discrete engine than by the existing five-scene crossfade. The Variant Lab exists precisely to determine this. The following variants test alternatives:
+
+- `exp/story-lab-canvas-higgsfield`: keyframe-driven canvas showing the website rebuilding itself
+- `exp/story-lab-layered-dom`: richer DOM parallax without canvas
+- `exp/story-lab-guiding-signal`: text-led progressive disclosure
+
+If the control (`exp/story-lab-control-crossfade`) wins the scorecard, the existing engine is confirmed sufficient for the homepage and the new scene data feeds it. If a new approach wins, Phase 4B extracts and productionizes it while leaving the existing engine intact for the secondary chapter.
+
+### 7.3 Palette decisions carried forward
+
+| Decision | Status |
+|---|---|
+| Direction A (Warm Editorial Forest) for the site | Carried forward as the default for all Phase 4A variants. Pending owner pick (D14 still open). |
+| Direction B (Gallery Noir) as luxury-brand demo-concept scope | Carried forward to Phase 5. Not a Phase 4A surface. |
+| Direction C (Porcelain & Ink) as SaaS demo-concept scope | Carried forward to Phase 5. Not a Phase 4A surface. |
+
+### 7.4 Higgsfield: spike-only, carried into Phase 4A
+
+The 2R §3.1 verdict stands: **Higgsfield is spike-only (NOT approved for production)**. The spike is now concretely scoped in `phase-4a-higgsfield-asset-pipeline-spike.md` and runs during Phase 4A on the canvas-Higgsfield branch. The required output (production-weight sample + measured perf delta + license confirmation) is exit criterion 3 of the Phase 2 exit-criteria table above. Runtime video remains rejected by default throughout Phase 4A and until the scorecard and performance gate show otherwise.
