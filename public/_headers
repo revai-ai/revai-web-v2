@@ -1,0 +1,56 @@
+# Phase 3F — security & cache headers (plan §7).
+#
+# Netlify copies this file into dist/ at build time (same mechanism as
+# public/_redirects). Netlify merges every matching rule and, for a header
+# set on overlapping paths, the most specific path wins — so the security
+# headers below apply site-wide via /*, while the per-path blocks only
+# override Cache-Control.
+#
+# Notes that bound this change:
+#   * CSP ships as Content-Security-Policy-Report-Only (NOT enforcing) — see
+#     the block below. It cannot break runtime; it only surfaces violations
+#     in the browser console for review before a later enforce flip.
+#   * These rules do NOT govern Netlify Function responses
+#     (/.netlify/functions/*) — functions return their own Response with their
+#     own headers (demo-request.mts: 405 on GET, 200 on dry-run POST). So the
+#     demo flow and Resend calls are unaffected by anything here.
+#   * Prerendered route files, _redirects ordering, the hard 404 and the SPA
+#     shell rewrites are untouched — headers are an additive serve-time layer.
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
+  Permissions-Policy: camera=(), geolocation=(), payment=(), usb=(), magnetometer=(), gyroscope=(), accelerometer=(), microphone=(self), autoplay=(self), fullscreen=(self)
+  Content-Security-Policy-Report-Only: default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'self'; form-action 'self'; script-src 'self' 'unsafe-inline' https://r2.leadsy.ai https://unpkg.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://api.vapi.ai https://*.vapi.ai wss://*.vapi.ai https://*.daily.co wss://*.daily.co https://r2.leadsy.ai https://*.leadsy.ai; media-src 'self' blob: https://*.daily.co; worker-src 'self' blob:; frame-src 'self' https://friendly-sunshine-69ae5e.netlify.app https://elaborate-blini-c35314.netlify.app https://rainbow-sherbet-664224.netlify.app
+  Cache-Control: public, max-age=0, must-revalidate
+
+# Vite-hashed, content-addressed bundles — safe to cache forever (the hash in
+# the filename changes whenever the content does).
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Crawl/control files — short cache so an updated sitemap or robots is picked
+# up quickly (sitemap.xml is build-generated; see scripts/prerender.ts).
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+# PWA manifest — conservative daily cache.
+/site.webmanifest
+  Cache-Control: public, max-age=86400
+
+# Unhashed public images (logos, og-image, favicons, team/testimonial photos).
+# Conservative 1-day cache: they can be replaced in place without a hash bump.
+/*.webp
+  Cache-Control: public, max-age=86400
+/*.png
+  Cache-Control: public, max-age=86400
+/*.svg
+  Cache-Control: public, max-age=86400
+/*.jpg
+  Cache-Control: public, max-age=86400
+/*.ico
+  Cache-Control: public, max-age=86400
